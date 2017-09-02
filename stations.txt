@@ -1,0 +1,4 @@
+http://www2.kuow.org/stream/kuowhb.m3u
+
+Known Working
+http://live-mp3-128.kexp.org/
