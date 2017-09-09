@@ -112,8 +112,10 @@ def main():
         logger.debug("Shutting Down...")
         if rotary1_thread:
             rotary1_thread.stop()
+            rotary1_thread.join()
         if rotary2_thread:
             rotary2_thread.stop()
+            rotary2_thread.join()
 
     # Release GPIO
     GPIO.cleanup()
