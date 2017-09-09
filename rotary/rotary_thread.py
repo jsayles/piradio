@@ -13,6 +13,7 @@ class RotaryThread(threading.Thread):
         self.deamon = True
 
         self.logger = logger
+        self.run_flag = True
 
         self._flag = 0
         self._last_b = 0
@@ -43,10 +44,13 @@ class RotaryThread(threading.Thread):
     def setRightCallback(self, callback):
         self.rightCallback = callback
 
+    def stop(self):
+        self.run_flag = False
+
     def run(self):
         self.logger.debug("Starting thread loop")
         try:
-            while True:
+            while run_flag:
                 self._last_b = GPIO.input(self.bPin)
                 while(not GPIO.input(self.aPin)):
                     self._current_b = GPIO.input(self.bPin)
