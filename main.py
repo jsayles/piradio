@@ -107,14 +107,8 @@ def main():
                 logger.warn("Exiting main thread")
         except KeyboardInterrupt:
             logger.debug("Shutting Down...")
-		except Exception as e:
-			logger.exception("Exception in main thread: " + str(e))
-        finally:
-            # Release resource
-            try:
-                GPIO.cleanup()
-            except Exception:
-                pass
+        except Exception as e:
+            logger.exception("Exception in main thread: " + str(e))
 
 if __name__ == '__main__':
     main()
