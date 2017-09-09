@@ -69,18 +69,18 @@ def splash():
 def rotary1_left():
     logger.debug("rotary1_left")
     global x, y, c, display
-    x = x - 1
-    if x < 0:
-        x = 7
+    x = x + 1
+    if x > 7:
+        x = 0
     drawPixel(x, y, c)
 
 
 def rotary1_right():
     logger.debug("rotary1_right")
     global x, y, c, display
-    x = x + 1
-    if x > 7:
-        x = 0
+    x = x - 1
+    if x < 0:
+        x = 7
     drawPixel(x, y, c)
 
 
