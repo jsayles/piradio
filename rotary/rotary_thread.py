@@ -38,8 +38,8 @@ class RotaryThread(threading.Thread):
         self.rightCallback = callback
 
     def run(self):
-        while True:
-            try:
+        try:
+            while True:
                 GPIO.setmode(GPIO.BCM)
                 GPIO.setup(self.aPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
                 GPIO.setup(self.bPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -53,10 +53,9 @@ class RotaryThread(threading.Thread):
                         self.leftCallback()
                     if (self._last_b == 1) and (self._current_b == 0):
                         self.rightCallback()
-            finally:
-                # Release resource
-                try:
-                    GPIO.cleanup()
-                except Exception:
-                    pass
-                return
+        finally:
+            # Release resource
+            try:
+                GPIO.cleanup()
+            except Exception:
+                pass

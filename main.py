@@ -74,8 +74,8 @@ def main():
     # server = None
 
     loops = 0
-    while True:
-        try:
+    try:
+        while True:
             loops = loops + 1
             logger.debug("Main Loop " + str(loops))
 
@@ -105,10 +105,10 @@ def main():
                 time.sleep(15)
 
                 logger.warn("Exiting main thread")
-        except KeyboardInterrupt:
-            logger.debug("Shutting Down...")
-        except Exception as e:
-            logger.exception("Exception in main thread: " + str(e))
+    except KeyboardInterrupt:
+        logger.debug("Shutting Down...")
+    except Exception as e:
+        logger.exception("Exception in main thread: " + str(e))
 
 if __name__ == '__main__':
     main()
