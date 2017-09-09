@@ -89,7 +89,7 @@ def main():
                     logger.info("Starting rotary1 thread")
                     rotary1_thread = RotaryThread(settings.ROTARY1_APin, settings.ROTARY1_BPin, settings.ROTARY1_SPin)
                     rotary1_thread.setLeftCallback(rotary1_left)
-                    rotary1_thread.setRightCallbck(rotary1_right)
+                    rotary1_thread.setRightCallback(rotary1_right)
                     rotary1_thread.setPushCallback(rotary1_push)
                     rotary1_thread.setDaemon(True)
                     rotary1_thread.start()
