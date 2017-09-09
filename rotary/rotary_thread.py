@@ -57,8 +57,6 @@ class RotaryThread(threading.Thread):
                         self.leftCallback()
                     if (last_b == 1) and (current_b == 0):
                         self.rightCallback()
-        except Exception as e:
-            self.logger.exception(e)
         finally:
             self.logger.debug("%s: Releasing GPIO" % self.name)
             try:

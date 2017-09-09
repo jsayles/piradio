@@ -105,7 +105,7 @@ def main():
 
             time.sleep(15)
     except KeyboardInterrupt:
-        logger.debug("Keyboard Interuption!")
+        logger.info("Keyboard Interuption!")
     except Exception as e:
         logger.exception("Exception in main thread: " + str(e))
     finally:
