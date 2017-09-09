@@ -21,7 +21,6 @@ GPIO.setwarnings(False)
 
 display = BicolorMatrix8x8.BicolorMatrix8x8()
 display.begin()
-splash()
 
 x = 0
 y = 0
@@ -112,7 +111,7 @@ def rotary2_push(ev=None):
     x = randint(0, 7)
     y = randint(0, 7)
     drawPixel(x, y, c)
-    
+
 
 ######################################################################
 # Main Loop
@@ -148,6 +147,9 @@ def main():
     rotary1_thread = None
     rotary2_thread = None
     # server = None
+
+    splash()
+    drawPixel(x, y, c)
 
     loops = 0
     try:
