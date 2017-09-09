@@ -104,8 +104,8 @@ def main():
             #         server.start()
 
             time.sleep(15)
-    except KeyboardInterrupt:
-        logger.debug("Shutting Down...")
+    # except KeyboardInterrupt:
+    #     logger.debug("Shutting Down...")
     except Exception as e:
         logger.exception("Exception in main thread: " + str(e))
 

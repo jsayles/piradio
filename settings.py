@@ -1,12 +1,12 @@
 LOG = "piradio.log"
 DEBUG = False
 
-ROTARY1_APin = 23
-ROTARY1_BPin = 24
+ROTARY1_APin = 24
+ROTARY1_BPin = 23
 ROTARY1_SPin =  4
 
-ROTARY2_APin = 27
-ROTARY2_BPin = 22
+ROTARY2_APin = 22
+ROTARY2_BPin = 27
 ROTARY2_SPin = 25
 
 import os, sys
