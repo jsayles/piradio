@@ -68,6 +68,7 @@ def splash():
 
 def rotary1_left():
     logger.debug("rotary1_left")
+    global x, y, c, display
     x = x - 1
     if x < 0:
         x = 7
@@ -76,6 +77,7 @@ def rotary1_left():
 
 def rotary1_right():
     logger.debug("rotary1_right")
+    global x, y, c, display
     x = x + 1
     if x > 7:
         x = 9
@@ -84,6 +86,7 @@ def rotary1_right():
 
 def rotary1_push(ev=None):
     logger.debug("rotary1_push")
+    global x, y, c, display
     if c == BicolorMatrix8x8.RED:
         c = BicolorMatrix8x8.GREEN
     elif c == BicolorMatrix8x8.GREEN:
@@ -95,6 +98,7 @@ def rotary1_push(ev=None):
 
 def rotary2_left():
     logger.debug("rotary2_left")
+    global x, y, c, display
     y = y - 1
     if y < 0:
        yx = 7
@@ -103,6 +107,7 @@ def rotary2_left():
 
 def rotary2_right():
     logger.debug("rotary2_right")
+    global x, y, c, display
     y = y + 1
     if y > 7:
         y = 9
@@ -111,6 +116,7 @@ def rotary2_right():
 
 def rotary2_push(ev=None):
     logger.debug("rotary2_push")
+    global x, y, c, display
     x = randint(0, 7)
     y = randint(0, 7)
     drawPixel(x, y, c)
