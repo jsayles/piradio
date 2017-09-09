@@ -57,8 +57,6 @@ class RotaryThread(threading.Thread):
                         self.leftCallback()
                     if (self._last_b == 1) and (self._current_b == 0):
                         self.rightCallback()
-
-                time.sleep(.1)
         except Exception as e:
             self.logger.exception(e)
         finally:
