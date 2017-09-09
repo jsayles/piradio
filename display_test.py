@@ -6,13 +6,16 @@ import logging
 import time
 import traceback
 from random import randint
-import RPi.GPIO as GPIO
 
+import RPi.GPIO as GPIO
+from PIL import Image
+from PIL import ImageDraw
 from Adafruit_LED_Backpack import BicolorMatrix8x8
+#from httpd.server import Server
 
 import settings
 from rotary.rotary_thread import RotaryThread
-#from httpd.server import Server
+
 
 logger = logging.getLogger('piradio')
 
