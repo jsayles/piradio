@@ -107,7 +107,7 @@ def main():
     except KeyboardInterrupt:
         logger.info("Keyboard Interuption!")
     except Exception as e:
-        logger.exception("Exception in main thread: " + str(e))
+        logger.exception(e)
     finally:
         logger.debug("Shutting Down...")
         if rotary1_thread:
@@ -115,6 +115,8 @@ def main():
         if rotary2_thread:
             rotary2_thread.stop()
 
+    # Release GPIO
+    GPIO.cleanup()
 
 if __name__ == '__main__':
     main()
