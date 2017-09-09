@@ -5,6 +5,7 @@ import sys
 import logging
 import time
 import traceback
+from random import randint
 import RPi.GPIO as GPIO
 
 from Adafruit_LED_Backpack import BicolorMatrix8x8
@@ -20,28 +21,98 @@ GPIO.setwarnings(False)
 
 display = BicolorMatrix8x8.BicolorMatrix8x8()
 display.begin()
+splash()
+
+x = 0
+y = 0
+c = BicolorMatrix8x8.RED
+
+
+######################################################################
+# Display Functions
+######################################################################
+
+
+def fill_display(r, g):
+    display.clear()
+    image = Image.new('RGB', (8, 8))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((0, 0, 7, 7), fill=(r, g, 0))
+    display.set_image(image)
+    display.write_display()
+
+
+def drawPixel(x, y, c):
+    display.clear()
+    display.set_pixel(x, y, c)
+    display.write_display()
+
+
+def splash():
+    fill_display(255, 0)
+    time.sleep(1)
+    fill_display(0, 255)
+    time.sleep(1)
+    fill_display(255, 255)
+    time.sleep(1)
+    display.clear()
+    display.write_display()
+
 
 ######################################################################
 # Callbacks
 ######################################################################
 
+
 def rotary1_left():
     logger.debug("rotary1_left")
+    x = x - 1
+    if x < 0:
+        x = 7
+    drawPixel(x, y, c)
+
 
 def rotary1_right():
     logger.debug("rotary1_right")
+    x = x + 1
+    if x > 7:
+        x = 9
+    drawPixel(x, y, c)
+
 
 def rotary1_push(ev=None):
     logger.debug("rotary1_push")
+    if c == BicolorMatrix8x8.RED:
+        c = BicolorMatrix8x8.GREEN
+    elif c == BicolorMatrix8x8.GREEN:
+        c = BicolorMatrix8x8.YELLOW
+    else:
+        c = BicolorMatrix8x8.RED
+    drawPixel(x, y, c)
+
 
 def rotary2_left():
     logger.debug("rotary2_left")
+    y = y - 1
+    if y < 0:
+       yx = 7
+    drawPixel(x, y, c)
+
 
 def rotary2_right():
     logger.debug("rotary2_right")
+    y = y + 1
+    if y > 7:
+        y = 9
+    drawPixel(x, y, c)
+
 
 def rotary2_push(ev=None):
     logger.debug("rotary2_push")
+    x = randint(0, 7)
+    y = randint(0, 7)
+    drawPixel(x, y, c)
+    
 
 ######################################################################
 # Main Loop
