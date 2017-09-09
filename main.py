@@ -94,6 +94,14 @@ def main():
                     rotary1_thread.setDaemon(True)
                     rotary1_thread.start()
 
+                    logger.info("Starting rotary2 thread")
+                    rotary2_thread = RotaryThread(settings.ROTARY2_APin, settings.ROTARY2_BPin, settings.ROTARY2_SPin)
+                    rotary2_thread.setLeftCallback(rotary2_left)
+                    rotary2_thread.setRightCallback(rotary2_right)
+                    rotary2_thread.setPushCallback(rotary2_push)
+                    rotary2_thread.setDaemon(True)
+                    rotary2_thread.start()
+
                     # if settings.HTTP_SERVER:
                     #     if not server or not server.is_alive():
                     #         logger.info("Starting HTTP server")
@@ -104,6 +112,8 @@ def main():
                     time.sleep(15)
 
                     logger.warn("Exiting main thread")
+            except KeyboardInterrupt:
+                logger.debug("Shutting Down...")
             finally:
                 # Release resource
                 GPIO.cleanup()
