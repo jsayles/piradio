@@ -50,7 +50,7 @@ class RotaryThread(threading.Thread):
     def run(self):
         self.logger.debug("Starting thread loop")
         try:
-            while run_flag:
+            while self.run_flag:
                 self._last_b = GPIO.input(self.bPin)
                 while(not GPIO.input(self.aPin)):
                     self._current_b = GPIO.input(self.bPin)
