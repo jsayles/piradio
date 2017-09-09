@@ -8,11 +8,12 @@ GPIO.setmode(GPIO.BCM)
 
 class RotaryThread(threading.Thread):
 
-    def __init__(self, aPin, bPin, sPin):
+    def __init__(self, aPin, bPin, sPin, logger=None):
         threading.Thread.__init__(self)
         self.deamon = True
 
-        self._globalCounter = 0
+        self.logger = logger
+
         self._flag = 0
         self._last_b = 0
         self._current_b = 0
@@ -40,6 +41,8 @@ class RotaryThread(threading.Thread):
     def run(self):
         try:
             while True:
+                self.logger.debug("Starting thread loop")
+
                 GPIO.setmode(GPIO.BCM)
                 GPIO.setup(self.aPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
                 GPIO.setup(self.bPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -59,3 +62,5 @@ class RotaryThread(threading.Thread):
                 GPIO.cleanup()
             except Exception:
                 pass
+
+        self.logger.debug("Exiting")
