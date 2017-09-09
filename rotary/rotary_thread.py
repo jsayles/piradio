@@ -4,10 +4,13 @@ import time
 import os
 
 
+GPIO.setmode(GPIO.BCM)
+
 class RotaryThread(threading.Thread):
 
     def __init__(self, aPin, bPin, sPin):
         threading.Thread.__init__(self)
+        self.deamon = True
 
         self._globalCounter = 0
         self._flag = 0
@@ -52,4 +55,8 @@ class RotaryThread(threading.Thread):
                         self.rightCallback()
             finally:
                 # Release resource
-                GPIO.cleanup()
+                try:
+                    GPIO.cleanup()
+                except Exception:
+                    pass
+                return
