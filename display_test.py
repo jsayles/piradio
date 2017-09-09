@@ -101,7 +101,7 @@ def rotary2_left():
     global x, y, c, display
     y = y - 1
     if y < 0:
-       x = 7
+       y = 7
     drawPixel(x, y, c)
 
 
