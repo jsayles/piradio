@@ -80,7 +80,7 @@ def rotary1_right():
     global x, y, c, display
     x = x + 1
     if x > 7:
-        x = 9
+        x = 0
     drawPixel(x, y, c)
 
 
@@ -101,7 +101,7 @@ def rotary2_left():
     global x, y, c, display
     y = y - 1
     if y < 0:
-       yx = 7
+       x = 7
     drawPixel(x, y, c)
 
 
@@ -110,7 +110,7 @@ def rotary2_right():
     global x, y, c, display
     y = y + 1
     if y > 7:
-        y = 9
+        y = 0
     drawPixel(x, y, c)
 
 
