@@ -2,9 +2,9 @@
 import RPi.GPIO as GPIO
 import time
 
-RoAPin = 17 
-RoBPin =  4 
-RoSPin = 18
+RoAPin = 23
+RoBPin = 24
+RoSPin =  4
 
 globalCounter = 0
 
@@ -34,7 +34,7 @@ def setup():
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(RoAPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 	GPIO.setup(RoBPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-	GPIO.setup(RoSPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+	GPIO.setup(RoSPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 	GPIO.add_event_detect(RoSPin, GPIO.FALLING, callback=clear_callback)
 
 

@@ -2,9 +2,9 @@
 import RPi.GPIO as GPIO
 import time
 
-RoAPin = 17 
-RoBPin =  4 
-RoSPin = 18
+RoAPin = 23
+RoBPin = 24 
+RoSPin =  4
 
 globalCounter = 0
 
@@ -13,12 +13,29 @@ Last_RoB_Status = 0
 Current_RoB_Status = 0
 
 
+def setCounter(diff):
+        global globalCounter
+	sleep_ms = 0.1
+        if diff == 0:
+                globalCounter = 0
+		sleep_ms = 1
+        else:
+                globalCounter = globalCounter + diff
+        print 'globalCounter = %d' % globalCounter
+        time.sleep(sleep_ms)
+
+
+# Callback for clear button
+def clear_callback(ev=None):
+        setCounter(0)
+
+
 def setup():
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(RoAPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 	GPIO.setup(RoBPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-	GPIO.setup(RoSPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-	rotaryClear()
+	GPIO.setup(RoSPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+	GPIO.add_event_detect(RoSPin, GPIO.FALLING, callback=clear_callback)
 
 
 def rotaryDeal():
@@ -33,27 +50,19 @@ def rotaryDeal():
 	if flag == 1:
 		flag = 0
 		if (Last_RoB_Status == 0) and (Current_RoB_Status == 1):
-			globalCounter = globalCounter + 1
-			print 'globalCounter = %d' % globalCounter
+			setCounter(1)
+			#globalCounter = globalCounter + 1
+			#print 'globalCounter = %d' % globalCounter
 		if (Last_RoB_Status == 1) and (Current_RoB_Status == 0):
-			globalCounter = globalCounter - 1
-			print 'globalCounter = %d' % globalCounter
-
-
-def clear(ev=None):
-        globalCounter = 0
-	print 'globalCounter = %d' % globalCounter
-	time.sleep(1)
-
-
-def rotaryClear():
-        GPIO.add_event_detect(RoSPin, GPIO.FALLING, callback=clear) # wait for falling
+			setCounter(-1)
+			#globalCounter = globalCounter - 1
+			#print 'globalCounter = %d' % globalCounter
 
 
 def loop():
-	global globalCounter
 	while True:
 		rotaryDeal()
+
 
 def destroy():
 	GPIO.cleanup()             # Release resource
