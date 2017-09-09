@@ -15,10 +15,6 @@ class RotaryThread(threading.Thread):
         self.logger = logger
         self.run_flag = True
 
-        self._flag = 0
-        self._last_b = 0
-        self._current_b = 0
-
         self.aPin = aPin
         self.bPin = bPin
         self.sPin = sPin
@@ -49,22 +45,25 @@ class RotaryThread(threading.Thread):
 
     def run(self):
         self.logger.debug("Starting thread loop")
+        last_b = 0
+        current_b = 0
+        check_values = False
         try:
             while self.run_flag:
-                self._last_b = GPIO.input(self.bPin)
+                last_b = GPIO.input(self.bPin)
                 while(not GPIO.input(self.aPin)):
-                    self._current_b = GPIO.input(self.bPin)
-                    self._flag = 1
-                if self._flag == 1:
-                    self._flag = 0
-                    if (self._last_b == 0) and (self._current_b == 1):
+                    current_b = GPIO.input(self.bPin)
+                    check_values = True
+                if check_values:
+                    if (last_b == 0) and (current_b == 1):
                         self.leftCallback()
-                    if (self._last_b == 1) and (self._current_b == 0):
+                    if (last_b == 1) and (current_b == 0):
                         self.rightCallback()
+                    check_valued = False
         except Exception as e:
             self.logger.exception(e)
         finally:
-            # Release resource
+            self.logger.debug("Releasing GPIO")
             try:
                 GPIO.cleanup()
             except Exception:

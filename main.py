@@ -105,13 +105,16 @@ def main():
 
             time.sleep(15)
     except KeyboardInterrupt:
+        logger.debug("Keyboard Interuption!")
+    except Exception as e:
+        logger.exception("Exception in main thread: " + str(e))
+    finally:
         logger.debug("Shutting Down...")
         if rotary1_thread:
             rotary1_thread.stop()
         if rotary2_thread:
             rotary2_thread.stop()
-    except Exception as e:
-        logger.exception("Exception in main thread: " + str(e))
+
 
 if __name__ == '__main__':
     main()
