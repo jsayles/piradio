@@ -26,7 +26,7 @@ def rotary1_left():
 def rotary1_right():
     logger.debug("rotary1_right")
 
-def rotary1_push():
+def rotary1_push(ev=None):
     logger.debug("rotary1_push")
 
 def rotary2_left():
@@ -35,7 +35,7 @@ def rotary2_left():
 def rotary2_right():
     logger.debug("rotary2_right")
 
-def rotary2_push():
+def rotary2_push(ev=None):
     logger.debug("rotary2_push")
 
 ######################################################################
@@ -88,6 +88,7 @@ def main():
                 rotary1_thread.setPushCallback(rotary1_push)
                 rotary1_thread.start()
 
+            if not rotary2_thread or not rotary2_thread.is_alive():
                 logger.info("Starting rotary2 thread")
                 rotary2_thread = RotaryThread(settings.ROTARY2_APin, settings.ROTARY2_BPin, settings.ROTARY2_SPin, logger=logger)
                 rotary2_thread.setLeftCallback(rotary2_left)
@@ -95,16 +96,14 @@ def main():
                 rotary2_thread.setPushCallback(rotary2_push)
                 rotary2_thread.start()
 
-                # if settings.HTTP_SERVER:
-                #     if not server or not server.is_alive():
-                #         logger.info("Starting HTTP server")
-                #         server = Server(queue, logger)
-                #         server.setDaemon(True)
-                #         server.start()
+            # if settings.HTTP_SERVER:
+            #     if not server or not server.is_alive():
+            #         logger.info("Starting HTTP server")
+            #         server = Server(queue, logger)
+            #         server.setDaemon(True)
+            #         server.start()
 
-                time.sleep(15)
-
-                logger.warn("Exiting main thread")
+            time.sleep(15)
     except KeyboardInterrupt:
         logger.debug("Shutting Down...")
     except Exception as e:
