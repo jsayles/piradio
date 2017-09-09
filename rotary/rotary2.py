@@ -2,9 +2,9 @@
 import RPi.GPIO as GPIO
 import time
 
-RoAPin = 23
-RoBPin = 24 
-RoSPin =  4
+RoAPin = 27
+RoBPin = 22
+RoSPin = 25
 
 globalCounter = 0
 

@@ -1,4 +1,3 @@
-http://www2.kuow.org/stream/kuowhb.m3u
-
 Known Working
+http://kuow.streamguys1.com/kuow1-hi.mp3
 http://live-mp3-128.kexp.org/

@@ -18,21 +18,21 @@ class RotaryThread(threading.Thread):
         self.bPin = bPin
         self.sPin = sPin
 
-        self.upCallback = None
-        self.downCallback = None
-        self.switchCallback = None
+        self.leftCallback = None
+        self.rightCallback = None
+        self.pushCallback = None
 
-    def setSwitchCallback(self, callback):
-        self.switchCallback = callback
+    def setPushCallback(self, callback):
+        self.pushCallback = callback
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.sPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(self.sPin, GPIO.FALLING, callback=callback)
 
-    def setUpCallback(self, callback):
-        self.upCallback = callback
+    def setLeftCallback(self, callback):
+        self.leftCallback = callback
 
-    def setDownCallback(self, callback):
-        self.downCallback = callback
+    def setRightCallback(self, callback):
+        self.rightCallback = callback
 
     def run(self):
         while True:
@@ -47,9 +47,9 @@ class RotaryThread(threading.Thread):
                 if self._flag == 1:
                     self._flag = 0
                     if (self._last_b == 0) and (self._current_b == 1):
-                        self.upCallback()
+                        self.leftCallback()
                     if (self._last_b == 1) and (self._current_b == 0):
-                        self.downCallback()
+                        self.rightCallback()
             finally:
                 # Release resource
                 GPIO.cleanup()
