@@ -26,10 +26,15 @@ class RotaryThread(threading.Thread):
         self.rightCallback = None
         self.pushCallback = None
 
+        self.setupGPIO()
+
+    def setupGPIO(self):
+        GPIO.setup(self.aPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.bPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.sPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
     def setPushCallback(self, callback):
         self.pushCallback = callback
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.sPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.add_event_detect(self.sPin, GPIO.FALLING, callback=callback)
 
     def setLeftCallback(self, callback):
@@ -39,13 +44,9 @@ class RotaryThread(threading.Thread):
         self.rightCallback = callback
 
     def run(self):
+        self.logger.debug("Starting thread loop")
         try:
             while True:
-                self.logger.debug("Starting thread loop")
-
-                GPIO.setmode(GPIO.BCM)
-                GPIO.setup(self.aPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-                GPIO.setup(self.bPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
                 self._last_b = GPIO.input(self.bPin)
                 while(not GPIO.input(self.aPin)):
                     self._current_b = GPIO.input(self.bPin)
@@ -56,6 +57,10 @@ class RotaryThread(threading.Thread):
                         self.leftCallback()
                     if (self._last_b == 1) and (self._current_b == 0):
                         self.rightCallback()
+
+                time.sleep(.1)
+        except Exception as e:
+            self.logger.exception(e)
         finally:
             # Release resource
             try:
