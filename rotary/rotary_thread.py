@@ -1,28 +1,25 @@
-import RPi.GPIO as GPIO
-import threading
-import time
 import os
+import time
+import threading
+import RPi.GPIO as GPIO
 
 
 GPIO.setmode(GPIO.BCM)
 
 class RotaryThread(threading.Thread):
 
-    def __init__(self, aPin, bPin, sPin, logger=None):
+    def __init__(self, name, aPin, bPin, sPin, logger):
         threading.Thread.__init__(self)
         self.deamon = True
-
+        self.name = name
         self.logger = logger
         self.run_flag = True
-
         self.aPin = aPin
         self.bPin = bPin
         self.sPin = sPin
-
         self.leftCallback = None
         self.rightCallback = None
         self.pushCallback = None
-
         self.setupGPIO()
 
     def setupGPIO(self):
@@ -44,7 +41,7 @@ class RotaryThread(threading.Thread):
         self.run_flag = False
 
     def run(self):
-        self.logger.debug("Starting thread loop")
+        self.logger.debug("%s: Starting thread loop" % self.name)
         last_b = 0
         current_b = 0
         check_values = False
@@ -55,18 +52,18 @@ class RotaryThread(threading.Thread):
                     current_b = GPIO.input(self.bPin)
                     check_values = True
                 if check_values:
+                    check_values = False
                     if (last_b == 0) and (current_b == 1):
                         self.leftCallback()
                     if (last_b == 1) and (current_b == 0):
                         self.rightCallback()
-                    check_valued = False
         except Exception as e:
             self.logger.exception(e)
         finally:
-            self.logger.debug("Releasing GPIO")
+            self.logger.debug("%s: Releasing GPIO" % self.name)
             try:
                 GPIO.cleanup()
             except Exception:
                 pass
 
-        self.logger.debug("Exiting")
+        self.logger.info("%s: Exiting" % self.name)

@@ -82,7 +82,7 @@ def main():
             # Make sure our rotary threads are alive and happy
             if not rotary1_thread or not rotary1_thread.is_alive():
                 logger.info("Starting rotary1 thread")
-                rotary1_thread = RotaryThread(settings.ROTARY1_APin, settings.ROTARY1_BPin, settings.ROTARY1_SPin, logger=logger)
+                rotary1_thread = RotaryThread("Rotary1", settings.ROTARY1_APin, settings.ROTARY1_BPin, settings.ROTARY1_SPin, logger)
                 rotary1_thread.setLeftCallback(rotary1_left)
                 rotary1_thread.setRightCallback(rotary1_right)
                 rotary1_thread.setPushCallback(rotary1_push)
@@ -90,7 +90,7 @@ def main():
 
             if not rotary2_thread or not rotary2_thread.is_alive():
                 logger.info("Starting rotary2 thread")
-                rotary2_thread = RotaryThread(settings.ROTARY2_APin, settings.ROTARY2_BPin, settings.ROTARY2_SPin, logger=logger)
+                rotary2_thread = RotaryThread("Rotary2", settings.ROTARY2_APin, settings.ROTARY2_BPin, settings.ROTARY2_SPin, logger)
                 rotary2_thread.setLeftCallback(rotary2_left)
                 rotary2_thread.setRightCallback(rotary2_right)
                 rotary2_thread.setPushCallback(rotary2_push)
