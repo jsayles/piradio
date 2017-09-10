@@ -6,6 +6,8 @@ import traceback
 import RPi.GPIO as GPIO
 
 import mpd
+from PIL import Image
+from PIL import ImageDraw
 from Adafruit_LED_Backpack import BicolorMatrix8x8
 
 import settings
