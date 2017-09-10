@@ -103,6 +103,9 @@ def rotary2_right():
 
 def rotary2_push(ev=None):
     logger.debug("rotary2_push")
+    client = getMPDClient()
+    logger.debug(client.status())
+    client.close()
     time.sleep(.5)
 
 
