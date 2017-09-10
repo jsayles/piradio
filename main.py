@@ -5,6 +5,7 @@ import time
 import traceback
 import RPi.GPIO as GPIO
 
+import mpd
 from Adafruit_LED_Backpack import BicolorMatrix8x8
 
 import settings
@@ -22,20 +23,71 @@ display.begin()
 
 
 ######################################################################
+# Display Functions
+######################################################################
+
+
+def fill_display(r, g):
+    display.clear()
+    image = Image.new('RGB', (8, 8))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((0, 0, 7, 7), fill=(r, g, 0))
+    display.set_image(image)
+    display.write_display()
+
+
+def drawPixel(x, y, c):
+    display.clear()
+    display.set_pixel(x, y, c)
+    display.write_display()
+
+
+def splash():
+    fill_display(255, 0)
+    time.sleep(1)
+    fill_display(0, 255)
+    time.sleep(1)
+    fill_display(255, 255)
+    time.sleep(1)
+    display.clear()
+    display.write_display()
+
+
+######################################################################
+# MPD Functions
+######################################################################
+
+
+def getMPDClient():
+    client = mpd.MPDClient(use_unicode=True)
+    client.connect("localhost", 6600)
+    return client
+
+
+######################################################################
 # Callbacks
 ######################################################################
 
 
 def rotary1_left():
     logger.debug("rotary1_left")
+    client = getMPDClient()
+    client.previous()
+    client.close()
 
 
 def rotary1_right():
     logger.debug("rotary1_right")
+    client = getMPDClient()
+    client.next()
+    client.close()
 
 
 def rotary1_push(ev=None):
     logger.debug("rotary1_push")
+    client = getMPDClient()
+    client.pause()
+    client.close()
     time.sleep(.5)
 
 
@@ -74,6 +126,9 @@ def main():
         logger.setLevel(logging.INFO)
         logger.info("INFO level logging")
         logger.info("Starting up...")
+
+    # Splash the display
+    splash()
 
     rotary1_thread = None
     rotary2_thread = None
