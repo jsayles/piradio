@@ -22,7 +22,7 @@ class RotaryThread(threading.Thread):
         self.pushCallback = None
         GPIO.setup(self.aPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.bPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.sPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(self.sPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     def setPushCallback(self, callback):
         self.pushCallback = callback

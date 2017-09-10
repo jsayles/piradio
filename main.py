@@ -65,15 +65,6 @@ def main():
         logger.info("INFO level logging")
         logger.info("Starting up...")
 
-    # Rotary Encoder 1
-    GPIO.setup(settings.ROTARY1_APin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(settings.ROTARY1_BPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(settings.ROTARY1_SPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    # Rotary Encoder 2
-    GPIO.setup(settings.ROTARY2_APin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(settings.ROTARY2_BPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(settings.ROTARY2_SPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
     rotary1_thread = None
     rotary2_thread = None
     # server = None
