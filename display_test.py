@@ -94,6 +94,7 @@ def rotary1_push(ev=None):
     else:
         c = BicolorMatrix8x8.RED
     drawPixel(x, y, c)
+    time.sleep(.5)
 
 
 def rotary2_left():
@@ -120,6 +121,7 @@ def rotary2_push(ev=None):
     x = randint(0, 7)
     y = randint(0, 7)
     drawPixel(x, y, c)
+    time.sleep(.5)
 
 
 ######################################################################

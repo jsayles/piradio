@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import os
 import sys
 import logging
@@ -13,6 +11,7 @@ import settings
 from rotary.rotary_thread import RotaryThread
 #from httpd.server import Server
 
+
 logger = logging.getLogger('piradio')
 
 GPIO.setmode(GPIO.BCM)
@@ -21,31 +20,42 @@ GPIO.setwarnings(False)
 display = BicolorMatrix8x8.BicolorMatrix8x8()
 display.begin()
 
+
 ######################################################################
 # Callbacks
 ######################################################################
 
+
 def rotary1_left():
     logger.debug("rotary1_left")
+
 
 def rotary1_right():
     logger.debug("rotary1_right")
 
+
 def rotary1_push(ev=None):
     logger.debug("rotary1_push")
+    time.sleep(.5)
+
 
 def rotary2_left():
     logger.debug("rotary2_left")
 
+
 def rotary2_right():
     logger.debug("rotary2_right")
 
+
 def rotary2_push(ev=None):
     logger.debug("rotary2_push")
+    time.sleep(.5)
+
 
 ######################################################################
 # Main Loop
 ######################################################################
+
 
 def main():
     # Setup Logging
@@ -115,6 +125,7 @@ def main():
 
     # Release GPIO
     GPIO.cleanup()
+
 
 if __name__ == '__main__':
     main()
