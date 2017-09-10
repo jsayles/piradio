@@ -20,9 +20,6 @@ class RotaryThread(threading.Thread):
         self.leftCallback = None
         self.rightCallback = None
         self.pushCallback = None
-        self.setupGPIO()
-
-    def setupGPIO(self):
         GPIO.setup(self.aPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.bPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.sPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
