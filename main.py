@@ -95,16 +95,26 @@ def rotary1_push(ev=None):
 
 def rotary2_left():
     logger.debug("rotary2_left")
+    client = getMPDClient()
+    status = client.status()
+    volume = int(status['volume'])
+    client.setvol(volume - 1)
+    client.close()
 
 
 def rotary2_right():
     logger.debug("rotary2_right")
+    client = getMPDClient()
+    status = client.status()
+    volume = int(status['volume'])
+    client.setvol(volume + 1)
+    client.close()
 
 
 def rotary2_push(ev=None):
     logger.debug("rotary2_push")
     client = getMPDClient()
-    logger.debug(client.status())
+    client.pause()
     client.close()
     time.sleep(.5)
 
