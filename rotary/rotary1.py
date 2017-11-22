@@ -34,7 +34,7 @@ def setup():
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(RoAPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 	GPIO.setup(RoBPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-	GPIO.setup(RoSPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+	GPIO.setup(RoSPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 	GPIO.add_event_detect(RoSPin, GPIO.FALLING, callback=clear_callback)
 
 
