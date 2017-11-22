@@ -93,7 +93,7 @@ def rotary1_push(ev=None):
     logger.debug("[ PAUSE ]")
     client.pause()
     client.close()
-    time.sleep(1)
+    time.sleep(2)
 
 
 def rotary2_left():
@@ -122,7 +122,7 @@ def rotary2_push(ev=None):
     logger.debug("[ PAUSE ]")
     client.pause()
     client.close()
-    time.sleep(1)
+    time.sleep(2)
 
 
 ######################################################################
