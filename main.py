@@ -20,8 +20,8 @@ logger = logging.getLogger('piradio')
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-display = BicolorMatrix8x8.BicolorMatrix8x8()
-display.begin()
+# display = BicolorMatrix8x8.BicolorMatrix8x8()
+# display.begin()
 
 
 ######################################################################
@@ -143,7 +143,7 @@ def main():
         logger.info("Starting up...")
 
     # Splash the display
-    splash()
+    # splash()
 
     rotary1_thread = None
     rotary2_thread = None
