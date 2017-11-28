@@ -2,12 +2,13 @@ import os
 import sys
 import logging
 import time
+import threading
 import traceback
-import RPi.GPIO as GPIO
 
 import mpd
 from PIL import Image
 from PIL import ImageDraw
+import RPi.GPIO as GPIO
 from Adafruit_LED_Backpack import BicolorMatrix8x8
 
 import settings
@@ -23,6 +24,8 @@ GPIO.setwarnings(False)
 # display = BicolorMatrix8x8.BicolorMatrix8x8()
 # display.begin()
 
+switch1_lock = threading.Lock()
+switch2_lock = threading.Lock()
 
 ######################################################################
 # Display Functions
@@ -89,11 +92,13 @@ def rotary1_right():
 
 def rotary1_push(ev=None):
     logger.debug("rotary1_push")
-    client = getMPDClient()
-    logger.debug("[ PAUSE ]")
-    client.pause()
-    client.close()
-    time.sleep(2)
+    if switch1_lock.acquire(False):
+        client = getMPDClient()
+        logger.debug("[ PAUSE ]")
+        client.pause()
+        client.close()
+        time.sleep(2)
+        switch1_lock.release()
 
 
 def rotary2_left():
@@ -118,11 +123,13 @@ def rotary2_right():
 
 def rotary2_push(ev=None):
     logger.debug("rotary2_push")
-    client = getMPDClient()
-    logger.debug("[ PAUSE ]")
-    client.pause()
-    client.close()
-    time.sleep(2)
+    if switch2_lock.acquire(False):
+        client = getMPDClient()
+        logger.debug("[ PAUSE ]")
+        client.pause()
+        client.close()
+        time.sleep(2)
+        switch2_lock.release()
 
 
 ######################################################################
