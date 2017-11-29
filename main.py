@@ -125,8 +125,8 @@ def rotary2_push(ev=None):
     logger.debug("rotary2_push")
     if switch2_lock.acquire(False):
         client = getMPDClient()
-        logger.debug("[ PAUSE ]")
-        client.pause()
+        logger.debug("[ STOP ]")
+        client.stop()
         client.close()
         time.sleep(2)
         switch2_lock.release()
