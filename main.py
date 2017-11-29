@@ -125,7 +125,8 @@ def rotary2_push(ev=None):
     logger.debug("rotary2_push")
     if switch2_lock.acquire(False):
         client = getMPDClient()
-        if client.status()['state'] == 'play':
+        status = client.status()
+        if status and status['state'] == 'play':
             logger.debug("[ STOP ]")
             client.stop()
         else:
