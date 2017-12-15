@@ -97,7 +97,7 @@ def rotary1_push(ev=None):
         client = getMPDClient()
         client.play()
         client.close()
-        time.sleep(2)
+        # time.sleep(2)
         switch1_lock.release()
 
 
@@ -128,7 +128,7 @@ def rotary2_push(ev=None):
         logger.debug("[ STOP ]")
         client.stop()
         client.close()
-        time.sleep(2)
+        # time.sleep(2)
         switch2_lock.release()
 
 
