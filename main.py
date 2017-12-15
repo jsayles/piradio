@@ -76,26 +76,26 @@ def getMPDClient():
 
 def rotary1_left():
     logger.debug("rotary1_left")
-    # client = getMPDClient()
-    # logger.debug("[ PREVIOUS ]")
-    # client.previous()
-    # client.close()
+    client = getMPDClient()
+    logger.debug("[ PREVIOUS ]")
+    client.previous()
+    client.close()
 
 
 def rotary1_right():
     logger.debug("rotary1_right")
-    # client = getMPDClient()
-    # logger.debug("[ NEXT ]")
-    # client.next()
-    # client.close()
+    client = getMPDClient()
+    logger.debug("[ NEXT ]")
+    client.next()
+    client.close()
 
 
 def rotary1_push(ev=None):
     logger.debug("rotary1_push")
     if switch1_lock.acquire(False):
+        logger.debug("[ PLAY ]")
         client = getMPDClient()
-        logger.debug("[ PAUSE ]")
-        client.pause()
+        client.play()
         client.close()
         time.sleep(2)
         switch1_lock.release()
@@ -125,13 +125,8 @@ def rotary2_push(ev=None):
     logger.debug("rotary2_push")
     if switch2_lock.acquire(False):
         client = getMPDClient()
-        status = client.status()
-        if status and status['state'] == 'play':
-            logger.debug("[ STOP ]")
-            client.stop()
-        else:
-            logger.debug("[ PLAY ]")
-            client.play()
+        logger.debug("[ STOP ]")
+        client.stop()
         client.close()
         time.sleep(2)
         switch2_lock.release()
