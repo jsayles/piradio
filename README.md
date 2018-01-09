@@ -1,12 +1,14 @@
 # Pi Radio
 Pi based Internet Radio
 
+For a list of stations see [stations.md](stations.md)
+
 ## Pi Setup
 
 Start with Raspian Stretch
 
 ### Basics
-sudo apt-get install tux git
+sudo apt-get install tux git python-devh
 
 ### Music Player Deamon
 sudo apt-get install mid mpc
@@ -32,7 +34,3 @@ https://learn.adafruit.com/ssd1306-oled-displays-with-raspberry-pi-and-beaglebon
 
 ###Touchscreen Radio Tutorial
 https://learn.adafruit.com/raspberry-pi-radio-player-with-touchscreen/installing-the-music-player-daemon
-
-## Streams
-http://live-mp3-128.kexp.org/
-
