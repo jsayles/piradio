@@ -8,14 +8,16 @@ For a list of stations see [stations.md](stations.md)
 Start with Raspian Stretch
 
 ### Basics
-sudo apt-get install tux git python-devh
+``` sudo apt-get install tux git python3-pip ```
 
-### Music Player Deamon
-sudo apt-get install mid mpc
+### Music Player Daemon
+```sudo apt-get install mid mpc```
 
 ### Bluetooth speaker
+```
 sudo apt-get install pi-bluetooth
 sudo apt-get install blueman pulseaudio pavucontrol pulseaudio-module-bluetooth  
+```
 
 ## Setup Tutorials
 
