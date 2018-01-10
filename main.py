@@ -9,7 +9,7 @@ import mpd
 from PIL import Image
 from PIL import ImageDraw
 import RPi.GPIO as GPIO
-from Adafruit_LED_Backpack import BicolorMatrix8x8
+# from Adafruit_LED_Backpack import BicolorMatrix8x8
 
 import settings
 from rotary.rotary_thread import RotaryThread
