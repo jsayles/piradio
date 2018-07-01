@@ -8,8 +8,8 @@ import traceback
 import soco
 import RPi.GPIO as GPIO
 
-from piradio.rotary.rotary_thread import RotaryThread
-from piradio import settings
+from .rotary.rotary_thread import RotaryThread
+from . import settings
 #from httpd.server import Server
 
 
