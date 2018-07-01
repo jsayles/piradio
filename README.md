@@ -28,6 +28,9 @@ sudo apt-get install blueman pulseaudio pavucontrol pulseaudio-module-bluetooth
 sudo echo "audio_pwm_mode=2" | sudo tee -a /boot/config.txt
 ```
 
+### Sonos Control ###
+http://docs.python-soco.com/en/latest/
+
 ### Set volume to 85%
 ```
 sudo amixer set PCM -- 85%
@@ -43,6 +46,10 @@ http://markus.jarvisalo.dy.fi/2017/12/making-the-raspberry-pi-3-a-bluetooth-audi
 ## Hardware
 
 LCD Hole:  27mm x 34mm max
+
+## MAX 9744 Amp Tutorial
+
+https://github.com/adafruit/Adafruit_Python_MAX9744
 
 ### Monocrome LCD
 https://www.adafruit.com/product/938

@@ -1,3 +1,5 @@
 RPi.GPIO==0.6.3
 python-mpd2
 #cherrypy
+soco
+requests
