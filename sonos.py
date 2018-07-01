@@ -30,19 +30,19 @@ sonos_device = soco.discovery.any_soco()
 
 
 def rotary1_left():
-    logger.debug("rotary1_left")
+    # logger.debug("rotary1_left")
     logger.debug("[ PREVIOUS ]")
     sonos_device.previous()
 
 
 def rotary1_right():
-    logger.debug("rotary1_right")
+    # logger.debug("rotary1_right")
     logger.debug("[ NEXT ]")
     sonos_device.next()
 
 
 def rotary1_push(ev=None):
-    logger.debug("rotary1_push")
+    # logger.debug("rotary1_push")
     if switch1_lock.acquire(False):
         logger.debug("[ STOP ]")
         sonos_device.stop()
@@ -51,20 +51,22 @@ def rotary1_push(ev=None):
 
 
 def rotary2_left():
-    logger.debug("rotary2_left")
-    logger.debug("[ VOLUME UP ]")
-    sonos_device.volume += 2
+    # logger.debug("rotary2_left")
+    sonos_device.volume -= 4
+    logger.debug("[ VOLUME Down ] %d" % sonos_device.volume)
 
 
 def rotary2_right():
-    logger.debug("rotary2_right")
-    logger.debug("[ VOLUME Down ]")
-    sonos_device.volume -= 2
+    # logger.debug("rotary2_right")
+    sonos_device.volume += 4
+    logger.debug("[ VOLUME UP ] %d" % sonos_device.volume)
+
 
 
 def rotary2_push(ev=None):
-    logger.debug("rotary2_push")
+    # logger.debug("rotary2_push")
     if switch2_lock.acquire(False):
+        logger.debug("[ PLAY ]")
         sonos_device.play()
         time.sleep(.5)
         switch2_lock.release()
