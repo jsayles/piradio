@@ -31,14 +31,12 @@ sonos_device = soco.discovery.any_soco()
 
 def rotary1_left():
     logger.debug("rotary1_left")
-    client = getMPDClient()
     logger.debug("[ PREVIOUS ]")
     sonos_device.previous()
 
 
 def rotary1_right():
     logger.debug("rotary1_right")
-    client = getMPDClient()
     logger.debug("[ NEXT ]")
     sonos_device.next()
 
