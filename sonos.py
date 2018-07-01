@@ -8,8 +8,8 @@ import traceback
 import soco
 import RPi.GPIO as GPIO
 
-from .rotary.rotary_thread import RotaryThread
-from . import settings
+import settings
+from rotary.rotary_thread import RotaryThread
 #from httpd.server import Server
 
 
@@ -54,13 +54,13 @@ def rotary1_push(ev=None):
 
 def rotary2_left():
     logger.debug("rotary2_left")
-    logger.debug("[ VOLUME %d ]" % volume)
+    logger.debug("[ VOLUME UP ]")
     sonos_device.volume += 2
 
 
 def rotary2_right():
     logger.debug("rotary2_right")
-    logger.debug("[ VOLUME %d ]" % volume)
+    logger.debug("[ VOLUME Down ]")
     sonos_device.volume -= 2
 
 
