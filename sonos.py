@@ -29,44 +29,38 @@ sonos_device = soco.discovery.any_soco()
 ######################################################################
 
 
-def rotary1_left():
-    # logger.debug("rotary1_left")
-    logger.debug("[ PREVIOUS ]")
+def sonos_previous():
+    logger.info("[ PREVIOUS ]")
     sonos_device.previous()
 
 
-def rotary1_right():
-    # logger.debug("rotary1_right")
-    logger.debug("[ NEXT ]")
+def sonos_next():
+    logger.info("[ NEXT ]")
     sonos_device.next()
 
 
-def rotary1_push(ev=None):
-    # logger.debug("rotary1_push")
+def sonos_stop(ev=None):
     if switch1_lock.acquire(False):
-        logger.debug("[ STOP ]")
+        logger.info("[ STOP ]")
         sonos_device.stop()
         time.sleep(.5)
         switch1_lock.release()
 
 
-def rotary2_left():
-    # logger.debug("rotary2_left")
+def sonos_voldown():
     sonos_device.volume -= 4
-    logger.debug("[ VOLUME Down ] %d" % sonos_device.volume)
+    logger.info("[ VOLUME Down ] %d" % sonos_device.volume)
 
 
-def rotary2_right():
-    # logger.debug("rotary2_right")
+def sonos_volup():
     sonos_device.volume += 4
-    logger.debug("[ VOLUME UP ] %d" % sonos_device.volume)
+    logger.info("[ VOLUME UP ] %d" % sonos_device.volume)
 
 
-
-def rotary2_push(ev=None):
+def sonos_play(ev=None):
     # logger.debug("rotary2_push")
     if switch2_lock.acquire(False):
-        logger.debug("[ PLAY ]")
+        logger.info("[ PLAY ]")
         sonos_device.play()
         time.sleep(.5)
         switch2_lock.release()
@@ -109,17 +103,17 @@ def main():
             if not rotary1_thread or not rotary1_thread.is_alive():
                 logger.info("Starting rotary1 thread")
                 rotary1_thread = RotaryThread("Rotary1", settings.ROTARY1_APin, settings.ROTARY1_BPin, settings.ROTARY1_SPin, logger)
-                rotary1_thread.setLeftCallback(rotary1_left)
-                rotary1_thread.setRightCallback(rotary1_right)
-                rotary1_thread.setPushCallback(rotary1_push)
+                rotary1_thread.setLeftCallback(sonos_voldown)
+                rotary1_thread.setRightCallback(sonos_volup)
+                rotary1_thread.setPushCallback(sonos_play)
                 rotary1_thread.start()
 
             if not rotary2_thread or not rotary2_thread.is_alive():
                 logger.info("Starting rotary2 thread")
                 rotary2_thread = RotaryThread("Rotary2", settings.ROTARY2_APin, settings.ROTARY2_BPin, settings.ROTARY2_SPin, logger)
-                rotary2_thread.setLeftCallback(rotary2_left)
-                rotary2_thread.setRightCallback(rotary2_right)
-                rotary2_thread.setPushCallback(rotary2_push)
+                rotary2_thread.setLeftCallback(sonos_previous)
+                rotary2_thread.setRightCallback(sonos_next)
+                rotary2_thread.setPushCallback(sonos_stop)
                 rotary2_thread.start()
 
             # if settings.HTTP_SERVER:

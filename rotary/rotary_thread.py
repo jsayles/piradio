@@ -42,15 +42,19 @@ class RotaryThread(threading.Thread):
         last_b = 0
         current_b = 0
         check_values = False
-        while self.run_flag:
-            last_b = GPIO.input(self.bPin)
-            while(not GPIO.input(self.aPin)):
-                current_b = GPIO.input(self.bPin)
-                check_values = True
-            if check_values:
-                check_values = False
-                if (last_b == 0) and (current_b == 1):
-                    self.leftCallback()
-                if (last_b == 1) and (current_b == 0):
-                    self.rightCallback()
+        try:
+            while self.run_flag:
+                last_b = GPIO.input(self.bPin)
+                while(not GPIO.input(self.aPin)):
+                    current_b = GPIO.input(self.bPin)
+                    check_values = True
+                if check_values:
+                    check_values = False
+                    if (last_b == 0) and (current_b == 1):
+                        self.leftCallback()
+                    if (last_b == 1) and (current_b == 0):
+                        self.rightCallback()
+        except Exception as e:
+            logger.error(e)
+            self.stop()
         self.logger.info("%s: Exiting" % self.name)
