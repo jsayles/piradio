@@ -18,8 +18,14 @@ logger = logging.getLogger('piradio')
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-switch1_lock = threading.Lock()
-switch2_lock = threading.Lock()
+WAIT_SEC = 0.8
+
+stop_lock = threading.Lock()
+play_lock = threading.Lock()
+
+PLAY = "play"
+PAUSE = "pause"
+play_state =
 
 sonos_device = soco.discovery.any_soco()
 
@@ -40,11 +46,11 @@ def sonos_next():
 
 
 def sonos_stop(ev=None):
-    if switch1_lock.acquire(False):
+    if stop_lock.acquire(False):
         logger.info("[ STOP ]")
         sonos_device.stop()
-        time.sleep(.5)
-        switch1_lock.release()
+        time.sleep(WAIT_SEC)
+        stop_lock.release()
 
 
 def sonos_voldown():
@@ -59,11 +65,16 @@ def sonos_volup():
 
 def sonos_play(ev=None):
     # logger.debug("rotary2_push")
-    if switch2_lock.acquire(False):
-        logger.info("[ PLAY ]")
-        sonos_device.play()
-        time.sleep(.5)
-        switch2_lock.release()
+    if play_lock.acquire(False):
+        if play_state == PLAY:
+            logger.info("[ PAUSE ]")
+            sonos_device.pause()
+            time.sleep(WAIT_SEC)
+        else:
+            logger.info("[ PLAY ]")
+            sonos_device.play()
+            time.sleep(WAIT_SEC5)
+        play_lock.release()
 
 
 ######################################################################
