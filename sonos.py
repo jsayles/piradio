@@ -29,14 +29,20 @@ sonos_device = soco.discovery.any_soco()
 
 def sonos_previous():
     sonos_device.previous()
-    pos = sonos_device.get_current_track_info()['playlist_position']
-    logger.info("[ PREVIOUS ] %d" % pos)
+    track = sonos_device.get_current_track_info()
+    track_title = ""
+    if track and 'title' in track:
+        track_title = track['title']
+    logger.info(f"[ PREVIOUS ] {track_title}" )
 
 
 def sonos_next():
     sonos_device.next()
-    pos = sonos_device.get_current_track_info()['playlist_position']
-    logger.info("[ NEXT ] %d" % pos)
+    track = sonos_device.get_current_track_info()
+    track_title = ""
+    if track and 'title' in track:
+        track_title = track['title']
+    logger.info(f"[ NEXT ] {track_title}" )
 
 
 def sonos_stop(ev=None):
