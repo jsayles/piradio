@@ -4,8 +4,6 @@ import threading
 import RPi.GPIO as GPIO
 
 
-GPIO.setmode(GPIO.BCM)
-
 class RotaryThread(threading.Thread):
 
     def __init__(self, name, aPin, bPin, sPin, logger):
@@ -20,12 +18,14 @@ class RotaryThread(threading.Thread):
         self.leftCallback = None
         self.rightCallback = None
         self.pushCallback = None
+        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.aPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.bPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.sPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     def setPushCallback(self, callback):
         self.pushCallback = callback
+        GPIO.setmode(GPIO.BCM)
         GPIO.add_event_detect(self.sPin, GPIO.FALLING, callback=callback)
 
     def setLeftCallback(self, callback):
@@ -42,7 +42,7 @@ class RotaryThread(threading.Thread):
         last_b = 0
         current_b = 0
         check_values = False
-        
+
         try:
             while self.run_flag:
                 last_b = GPIO.input(self.bPin)

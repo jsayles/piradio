@@ -6,17 +6,12 @@ import threading
 import traceback
 
 import soco
-import RPi.GPIO as GPIO
 
 import settings
 from rotary.rotary_thread import RotaryThread
-#from httpd.server import Server
 
 
 logger = logging.getLogger('piradio')
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
 
 WAIT_SEC = 0.8
 
@@ -136,13 +131,6 @@ def main():
                 rotary2_thread.setPushCallback(sonos_play)
                 rotary2_thread.start()
 
-            # if settings.HTTP_SERVER:
-            #     if not server or not server.is_alive():
-            #         logger.info("Starting HTTP server")
-            #         server = Server(queue, logger)
-            #         server.setDaemon(True)
-            #         server.start()
-
             time.sleep(15)
     except KeyboardInterrupt:
         logger.info("Keyboard Interuption!")
@@ -156,9 +144,6 @@ def main():
         if rotary2_thread:
             rotary2_thread.stop()
             rotary2_thread.join()
-
-    # Release GPIO
-    GPIO.cleanup()
 
 
 if __name__ == '__main__':
