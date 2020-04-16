@@ -23,9 +23,6 @@ WAIT_SEC = 0.8
 stop_lock = threading.Lock()
 play_lock = threading.Lock()
 
-PLAY = "play"
-PAUSE = "pause"
-play_state =
 
 sonos_device = soco.discovery.any_soco()
 
@@ -36,13 +33,15 @@ sonos_device = soco.discovery.any_soco()
 
 
 def sonos_previous():
-    logger.info("[ PREVIOUS ]")
     sonos_device.previous()
+    pos = sonos_device.get_current_track_info()['playlist_position']
+    logger.info("[ PREVIOUS ] %d" % pos)
 
 
 def sonos_next():
-    logger.info("[ NEXT ]")
     sonos_device.next()
+    pos = sonos_device.get_current_track_info()['playlist_position']
+    logger.info("[ NEXT ] %d" % pos)
 
 
 def sonos_stop(ev=None):
@@ -64,9 +63,11 @@ def sonos_volup():
 
 
 def sonos_play(ev=None):
-    # logger.debug("rotary2_push")
+    state = sonos_device.get_current_transport_info()['current_transport_state']
     if play_lock.acquire(False):
-        if play_state == PLAY:
+        # play_state can be 'PLAYING', 'PAUSED_PLAYBACK', or 'STOPPED'
+        play_state = sonos_device.get_current_transport_info()['current_transport_state']
+        if play_state == 'PLAYING':
             logger.info("[ PAUSE ]")
             sonos_device.pause()
             time.sleep(WAIT_SEC)
@@ -75,6 +76,15 @@ def sonos_play(ev=None):
             sonos_device.play()
             time.sleep(WAIT_SEC5)
         play_lock.release()
+
+
+def get_fav_uri():
+    # Grab the URI that is at the top of our favorites list
+    uri = None
+    favs = sonos_device.get_sonos_favorites()
+    if 'favorites' in favs and len(favs) > 0:
+        uri = favs['favorites'][0]['uri']
+    return uri
 
 
 ######################################################################
