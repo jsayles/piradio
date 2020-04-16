@@ -73,7 +73,7 @@ def sonos_play(ev=None):
         else:
             logger.info("[ PLAY ]")
             sonos_device.play()
-            time.sleep(WAIT_SEC5)
+            time.sleep(WAIT_SEC)
         play_lock.release()
 
 

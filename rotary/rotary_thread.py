@@ -42,6 +42,7 @@ class RotaryThread(threading.Thread):
         last_b = 0
         current_b = 0
         check_values = False
+        
         try:
             while self.run_flag:
                 last_b = GPIO.input(self.bPin)
@@ -55,6 +56,8 @@ class RotaryThread(threading.Thread):
                     if (last_b == 1) and (current_b == 0):
                         self.rightCallback()
         except Exception as e:
-            logger.error(e)
+            self.logger.error(e)
             self.stop()
+
         self.logger.info("%s: Exiting" % self.name)
+        GPIO.cleanup()
