@@ -63,7 +63,6 @@ def sonos_volup():
 
 
 def sonos_play(ev=None):
-    state = sonos_device.get_current_transport_info()['current_transport_state']
     if play_lock.acquire(False):
         # play_state can be 'PLAYING', 'PAUSED_PLAYBACK', or 'STOPPED'
         play_state = sonos_device.get_current_transport_info()['current_transport_state']
