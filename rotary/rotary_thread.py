@@ -1,7 +1,12 @@
 import os
 import time
 import threading
-import RPi.GPIO as GPIO
+
+# If this is run not on the pi it will fail
+try:
+    import RPi.GPIO as GPIO
+except:
+    pass
 
 
 class RotaryThread(threading.Thread):
