@@ -8,6 +8,7 @@ import traceback
 import soco
 
 import settings
+import sonos_utils
 from rotary.rotary_thread import RotaryThread
 
 
@@ -18,33 +19,12 @@ WAIT_SEC = 0.8
 stop_lock = threading.Lock()
 play_lock = threading.Lock()
 
-sonos_device = find_sonos()
+sonos_device = sonos_utils.find_sonos()
 
 
 ######################################################################
-# Sonos Utility Methods and Callbacks
+# Rotary Knob Callbacks
 ######################################################################
-
-
-def find_sonos():
-    our_sonos = None
-    if hasattr(settings, "SONOS_NAME"):
-        logger.debug("Searching for '%s'..." % settings.SONOS_NAME)
-        for sonos in soco.discover():
-            if sonos.player_name == settings.SONOS_NAME:
-                our_sonos = sonos
-    else:
-        # Name isn't set so return any sonos we find
-        logger.debug("Searching for any Sonos speaker...")
-        our_sonos = soco.discovery.any_soco()
-    if not our_sonos:
-        raise Exception("Could not find Sonos speaker!")
-
-    ip = our_sonos.ip_address
-    name = our_sonos.player_name
-    model_name = our_sonos.get_speaker_info()['model_name']
-    logger.info(f"Found a {model_name} named {name} at {ip}")
-
 
 
 def sonos_previous():
@@ -96,15 +76,6 @@ def sonos_play(ev=None):
             sonos_device.play()
             time.sleep(WAIT_SEC)
         play_lock.release()
-
-
-def get_fav_uri():
-    # Grab the URI that is at the top of our favorites list
-    uri = None
-    favs = sonos_device.get_sonos_favorites()
-    if 'favorites' in favs and len(favs) > 0:
-        uri = favs['favorites'][0]['uri']
-    return uri
 
 
 ######################################################################
