@@ -42,7 +42,7 @@ class RotaryThread(threading.Thread):
         self.run_flag = False
 
     def run(self):
-        if logger:
+        if self.logger:
             self.logger.debug("%s: Starting thread loop" % self.name)
         last_b = 0
         current_b = 0
@@ -61,10 +61,10 @@ class RotaryThread(threading.Thread):
                     if (last_b == 1) and (current_b == 0):
                         self.rightCallback()
         except Exception as e:
-            if logger:
+            if self.logger:
                 self.logger.error(e)
             self.stop()
 
-        if logger:
+        if self.logger:
             self.logger.info("%s: Exiting" % self.name)
         GPIO.cleanup()
