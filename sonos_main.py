@@ -114,7 +114,7 @@ def main():
             # Make sure our rotary threads are alive and happy
             if not rotary1_thread or not rotary1_thread.is_alive():
                 logger.info("Starting rotary1 thread")
-                rotary1_thread = RotaryThread("Rotary1", settings.ROTARY1_APin, settings.ROTARY1_BPin, settings.ROTARY1_SPin, logger)
+                rotary1_thread = RotaryThread("Rotary1", settings.ROTARY1_APin, settings.ROTARY1_BPin, settings.ROTARY1_SPin, logger=logger)
                 rotary1_thread.setLeftCallback(sonos_voldown)
                 rotary1_thread.setRightCallback(sonos_volup)
                 rotary1_thread.setPushCallback(sonos_play)
@@ -122,7 +122,7 @@ def main():
 
             if not rotary2_thread or not rotary2_thread.is_alive():
                 logger.info("Starting rotary2 thread")
-                rotary2_thread = RotaryThread("Rotary2", settings.ROTARY2_APin, settings.ROTARY2_BPin, settings.ROTARY2_SPin, logger)
+                rotary2_thread = RotaryThread("Rotary2", settings.ROTARY2_APin, settings.ROTARY2_BPin, settings.ROTARY2_SPin, logger=logger)
                 rotary2_thread.setLeftCallback(sonos_previous)
                 rotary2_thread.setRightCallback(sonos_next)
                 rotary2_thread.setPushCallback(sonos_play)
