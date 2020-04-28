@@ -98,7 +98,8 @@ def sonos_play_pause(ev=None):
 
 def check_thread(thread, settings, logger):
     if not thread or not thread.is_alive():
-        logger.info(f"Starting {settings.name} thread")
+        name = settings['name']
+        logger.info(f"Starting {name} thread")
         thread = RotaryThread(name, settings['apin'], settings['bpin'], settings['spin'], logger=logger)
         thread.setLeftCallback(settings['left'])
         thread.setRightCallback(settings['right'])
