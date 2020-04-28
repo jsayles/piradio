@@ -14,10 +14,7 @@ from rotary.rotary_thread import RotaryThread
 
 logger = logging.getLogger('piradio')
 
-WAIT_SEC = 0.8
-
-stop_lock = threading.Lock()
-play_lock = threading.Lock()
+thread_lock = threading.Lock()
 
 sonos_device = sonos_utils.find_sonos()
 
@@ -25,6 +22,16 @@ sonos_device = sonos_utils.find_sonos()
 ######################################################################
 # Rotary Knob Callbacks
 ######################################################################
+
+
+def sonos_voldown():
+    sonos_device.volume -= 4
+    logger.info("[ VOLUME Down ] %d" % sonos_device.volume)
+
+
+def sonos_volup():
+    sonos_device.volume += 4
+    logger.info("[ VOLUME UP ] %d" % sonos_device.volume)
 
 
 def sonos_previous():
@@ -46,36 +53,58 @@ def sonos_next():
 
 
 def sonos_stop(ev=None):
-    if stop_lock.acquire(False):
+    if thread_lock.acquire(False):
         logger.info("[ STOP ]")
         sonos_device.stop()
-        time.sleep(WAIT_SEC)
-        stop_lock.release()
-
-
-def sonos_voldown():
-    sonos_device.volume -= 4
-    logger.info("[ VOLUME Down ] %d" % sonos_device.volume)
-
-
-def sonos_volup():
-    sonos_device.volume += 4
-    logger.info("[ VOLUME UP ] %d" % sonos_device.volume)
+        time.sleep(1)
+        thread_lock.release()
 
 
 def sonos_play(ev=None):
-    if play_lock.acquire(False):
+    if thread_lock.acquire(False):
+        logger.info("[ PLAY ]")
+        sonos_device.play()
+        time.sleep(1)
+        thread_lock.release()
+
+
+def sonos_pause(ev=None):
+    if thread_lock.acquire(False):
+        logger.info("[ PAUSE ]")
+        sonos_device.pause()
+        time.sleep(1)
+        thread_lock.release()
+
+
+def sonos_play_pause(ev=None):
+    if thread_lock.acquire(False):
         # play_state can be 'PLAYING', 'PAUSED_PLAYBACK', or 'STOPPED'
         play_state = sonos_device.get_current_transport_info()['current_transport_state']
         if play_state == 'PLAYING':
             logger.info("[ PAUSE ]")
             sonos_device.pause()
-            time.sleep(WAIT_SEC)
+            time.sleep(0.8)
         else:
             logger.info("[ PLAY ]")
             sonos_device.play()
-            time.sleep(WAIT_SEC)
-        play_lock.release()
+            time.sleep(0.8)
+        thread_lock.release()
+
+
+######################################################################
+# Thread helper methods
+######################################################################
+
+
+def check_thread(thread, settings, logger):
+    if not thread or not thread.is_alive():
+        logger.info(f"Starting {settings.name} thread")
+        thread = RotaryThread(name, settings['apin'], settings['bpin'], settings['spin'], logger=logger)
+        thread.setLeftCallback(settings['left'])
+        thread.setRightCallback(settings['right'])
+        thread.setPushCallback(settings['push'])
+        thread.start()
+    return thread
 
 
 ######################################################################
@@ -102,8 +131,37 @@ def main():
         logger.info("Starting up...")
 
     rotary1_thread = None
+    rotary1_settings = {
+        'name': 'Rotary1',
+        'apin': settings.ROTARY1_APin,
+        'bpin': settings.ROTARY1_BPin,
+        'spin': settings.ROTARY1_SPin,
+        'left': sonos_voldown,
+        'right': sonos_volup,
+        'push': sonos_pause,
+    }
+
     rotary2_thread = None
-    # server = None
+    rotary2_settings = {
+        'name': 'Rotary2',
+        'apin': settings.ROTARY2_APin,
+        'bpin': settings.ROTARY2_BPin,
+        'spin': settings.ROTARY2_SPin,
+        'left': sonos_previous,
+        'right': sonos_next,
+        'push': sonos_stop,
+    }
+
+    rotary3_thread = None
+    rotary3_settings = {
+        'name': 'Rotary3',
+        'apin': settings.ROTARY3_APin,
+        'bpin': settings.ROTARY3_BPin,
+        'spin': settings.ROTARY3_SPin,
+        'left': sonos_previous,
+        'right': sonos_next,
+        'push': sonos_play,
+    }
 
     loops = 0
     try:
@@ -112,21 +170,9 @@ def main():
             logger.debug("Main Loop " + str(loops))
 
             # Make sure our rotary threads are alive and happy
-            if not rotary1_thread or not rotary1_thread.is_alive():
-                logger.info("Starting rotary1 thread")
-                rotary1_thread = RotaryThread("Rotary1", settings.ROTARY1_APin, settings.ROTARY1_BPin, settings.ROTARY1_SPin, logger=logger)
-                rotary1_thread.setLeftCallback(sonos_voldown)
-                rotary1_thread.setRightCallback(sonos_volup)
-                rotary1_thread.setPushCallback(sonos_play)
-                rotary1_thread.start()
-
-            if not rotary2_thread or not rotary2_thread.is_alive():
-                logger.info("Starting rotary2 thread")
-                rotary2_thread = RotaryThread("Rotary2", settings.ROTARY2_APin, settings.ROTARY2_BPin, settings.ROTARY2_SPin, logger=logger)
-                rotary2_thread.setLeftCallback(sonos_previous)
-                rotary2_thread.setRightCallback(sonos_next)
-                rotary2_thread.setPushCallback(sonos_play)
-                rotary2_thread.start()
+            rotary1_thread = check_thread(rotary1_thread, rotary1_settings, logger)
+            rotary2_thread = check_thread(rotary2_thread, rotary2_settings, logger)
+            rotary3_thread = check_thread(rotary3_thread, rotary3_settings, logger)
 
             time.sleep(15)
     except KeyboardInterrupt:
