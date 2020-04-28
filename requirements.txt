@@ -1,4 +1,4 @@
-RPi.GPIO==0.6.3
+RPi.GPIO
 python-mpd2
 #cherrypy
 soco
