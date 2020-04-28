@@ -1,17 +1,20 @@
 LOG = "piradio.log"
 DEBUG = False
 
-ROTARY1_APin = 24
-ROTARY1_BPin = 23
-ROTARY1_SPin =  4
+ROTARY1_APin = 22
+ROTARY1_BPin = 27
+ROTARY1_SPin = 17
 
-ROTARY2_APin = 22
-ROTARY2_BPin = 27
-ROTARY2_SPin = 25
+ROTARY2_APin = 24
+ROTARY2_BPin = 23
+ROTARY2_SPin = 18
+
+ROTARY3_APin = 7
+ROTARY3_BPin = 8
+ROTARY3_SPin = 25
 
 import os, sys
 sys.path.append(os.environ['HOME'])
-sys.path.append('/home/pi')
 
 # Now get the local settings
 from local_settings import *

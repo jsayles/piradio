@@ -11,7 +11,7 @@ except:
 
 class RotaryThread(threading.Thread):
 
-    def __init__(self, name, aPin, bPin, sPin, logger):
+    def __init__(self, name, aPin, bPin, sPin, logger=None):
         threading.Thread.__init__(self)
         self.deamon = True
         self.name = name
@@ -30,7 +30,6 @@ class RotaryThread(threading.Thread):
 
     def setPushCallback(self, callback):
         self.pushCallback = callback
-        GPIO.setmode(GPIO.BCM)
         GPIO.add_event_detect(self.sPin, GPIO.FALLING, callback=callback)
 
     def setLeftCallback(self, callback):
@@ -43,7 +42,8 @@ class RotaryThread(threading.Thread):
         self.run_flag = False
 
     def run(self):
-        self.logger.debug("%s: Starting thread loop" % self.name)
+        if logger:
+            self.logger.debug("%s: Starting thread loop" % self.name)
         last_b = 0
         current_b = 0
         check_values = False
@@ -61,8 +61,10 @@ class RotaryThread(threading.Thread):
                     if (last_b == 1) and (current_b == 0):
                         self.rightCallback()
         except Exception as e:
-            self.logger.error(e)
+            if logger:
+                self.logger.error(e)
             self.stop()
 
-        self.logger.info("%s: Exiting" % self.name)
+        if logger:
+            self.logger.info("%s: Exiting" % self.name)
         GPIO.cleanup()

@@ -15,10 +15,10 @@ Current_RoB_Status = 0
 
 def setCounter(diff):
         global globalCounter
-	sleep_ms = 0.1
+        sleep_ms = 0.1
         if diff == 0:
                 globalCounter = 0
-		sleep_ms = 1
+        sleep_ms = 1
         else:
                 globalCounter = globalCounter + diff
         print 'globalCounter = %d' % globalCounter
